@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c8e120945958e72ed036e5351d4572ce {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_c8e120945958e72ed036e5351d4572ce" ></div>
+        
+    
+            
+        
+</body>
+<script>
+    
+    
+            var map_c8e120945958e72ed036e5351d4572ce = L.map(
+                "map_c8e120945958e72ed036e5351d4572ce",
+                {
+                    center: [20.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 2,
+  "zoomControl": true,
+  "preferCanvas": false,
+  "eeInitialize": true,
+  "addGoogleMap": false,
+  "pluginLatlngpopup": false,
+  "pluginFullscreen": true,
+  "pluginDraw": true,
+  "DrawExport": false,
+  "pluginMinimap": false,
+  "locateControl": false,
+  "searchControl": true,
+  "layersControl": true,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f6140d34a4d7d11fba483afe2bba47b6 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 30,
+  "maxNativeZoom": 30,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f6140d34a4d7d11fba483afe2bba47b6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_678d2f68e79a210e39522381c9f2009d =
+                    new L.featureGroup().addTo(
+                        map_c8e120945958e72ed036e5351d4572ce
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_678d2f68e79a210e39522381c9f2009d;
+            var draw_control_678d2f68e79a210e39522381c9f2009d = new L.Control.Draw(
+                options
+            ).addTo( map_c8e120945958e72ed036e5351d4572ce );
+            map_c8e120945958e72ed036e5351d4572ce.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_678d2f68e79a210e39522381c9f2009d.addLayer(layer);
+            });
+            map_c8e120945958e72ed036e5351d4572ce.on('draw:created', function(e) {
+                drawnItems_draw_control_678d2f68e79a210e39522381c9f2009d.addLayer(e.layer);
+            });
+
+            
+        
+    
+
+            var geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6 = {
+  "collapsed": true,
+  "position": "topleft",
+  "defaultMarkGeocode": true,
+  "zoom": 11,
+  "provider": "nominatim",
+  "providerOptions": {
+},
+};
+
+            // note: geocoder name should start with lowercase
+            var geocoderName_geocoder_7195978d3d99cb29b042bd2c8f94e4d6 = geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6["provider"];
+
+            var customGeocoder_geocoder_7195978d3d99cb29b042bd2c8f94e4d6 = L.Control.Geocoder[ geocoderName_geocoder_7195978d3d99cb29b042bd2c8f94e4d6 ](
+                geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6['providerOptions']
+            );
+            geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6["geocoder"] = customGeocoder_geocoder_7195978d3d99cb29b042bd2c8f94e4d6;
+
+            L.Control.geocoder(
+                geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6
+            ).on('markgeocode', function(e) {
+                var zoom = geocoderOpts_geocoder_7195978d3d99cb29b042bd2c8f94e4d6['zoom'] || map_c8e120945958e72ed036e5351d4572ce.getZoom();
+                map_c8e120945958e72ed036e5351d4572ce.setView(e.geocode.center, zoom);
+            }).addTo(map_c8e120945958e72ed036e5351d4572ce);
+
+        
+    
+            map_c8e120945958e72ed036e5351d4572ce.fitBounds(
+                [[20, 0], [20, 0]],
+                {"maxZoom": 2}
+            );
+        
+    
+            var tile_layer_affc32c0f6b98f0f86688acc47ffdb3f = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 30,
+  "maxNativeZoom": 30,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_affc32c0f6b98f0f86688acc47ffdb3f.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            map_c8e120945958e72ed036e5351d4572ce.fitBounds(
+                [[-12.079513033052116, -77.18796231165231], [-11.817826188025478, -77.07772883594542]],
+                {}
+            );
+        
+    
+            var tile_layer_3478a0a3fed93baf853ecd317118fdf6 = L.tileLayer(
+                "https://earthengine.googleapis.com/v1/projects/ee-dacalizaya1958/maps/f649de404bcab30ddee3aaea26260bb7-06a2d530e65ac1909a906468a3dbdb3b/tiles/{z}/{x}/{y}",
+                {
+  "minZoom": 0,
+  "maxZoom": 24,
+  "maxNativeZoom": 24,
+  "noWrap": false,
+  "attribution": "Google Earth Engine",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1.0,
+}
+
+            );
+        
+    
+            tile_layer_3478a0a3fed93baf853ecd317118fdf6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+        L.Control.CustomControl = L.Control.extend({
+            onAdd: function(map) {
+                let div = L.DomUtil.create('div');
+                div.innerHTML = `<div style="font-size: 20px; color: black; font-weight: bold;
+            padding: 5px; background-color: white;
+            border-radius: 5px;">LÍMITES DISTRITALES - CALLAO</div>`;
+                return div;
+            },
+            onRemove: function(map) {
+                // Nothing to do here
+            }
+        });
+        L.control.customControl = function(opts) {
+            return new L.Control.CustomControl(opts);
+        }
+        L.control.customControl(
+            { position: "bottomright" }
+        ).addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            var feature_group_612d3a55ca1077582c63e2a80f0775a4 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_4eba0903a67f8b4bba70a2d01d77fc5c = L.marker(
+                [-11.879151385121297, -77.13087739941253],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_db8c79d52a7509d872e68e424c22e1da = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eVENTANILLA\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_4eba0903a67f8b4bba70a2d01d77fc5c.setIcon(div_icon_db8c79d52a7509d872e68e424c22e1da);
+            
+    
+            var marker_0d0f072f772d4ec087ed956c2fb60af2 = L.marker(
+                [-12.070289146198247, -77.11613765486631],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_e28305d7041e1046a3bac4801d637733 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eLA PERLA\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_0d0f072f772d4ec087ed956c2fb60af2.setIcon(div_icon_e28305d7041e1046a3bac4801d637733);
+            
+    
+            var marker_e5a1e782cd3966162b4c4418f91e9b15 = L.marker(
+                [-12.042821151432108, -77.09049426654062],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_0158f143878eed1d7ec29bfeebdc7612 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eCARMEN DE LA LEGUA REYNOSO\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_e5a1e782cd3966162b4c4418f91e9b15.setIcon(div_icon_0158f143878eed1d7ec29bfeebdc7612);
+            
+    
+            var marker_dd5dd72d58c8159372bfc73ace30c346 = L.marker(
+                [-12.016531382788193, -77.1216291855005],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_0208e0a515650fa124a991f4a01339e9 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eCALLAO\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_dd5dd72d58c8159372bfc73ace30c346.setIcon(div_icon_0208e0a515650fa124a991f4a01339e9);
+            
+    
+            var marker_6ce690ff0a7d5f588b070de6ece2cfe3 = L.marker(
+                [-12.059999940824477, -77.10994573581789],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_799308e55d9923502d5fed8323276963 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eBELLAVISTA\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_6ce690ff0a7d5f588b070de6ece2cfe3.setIcon(div_icon_799308e55d9923502d5fed8323276963);
+            
+    
+            var marker_1bb1b817a9e24565281452bc2c656eba = L.marker(
+                [-12.071664095709767, -77.16283159261543],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_a0496beb548802267aece5fddda477ac = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eLA PUNTA\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_1bb1b817a9e24565281452bc2c656eba.setIcon(div_icon_a0496beb548802267aece5fddda477ac);
+            
+    
+            var marker_97348c24003283b20ca0ee580e439b85 = L.marker(
+                [-11.854338739289394, -77.12055634571774],
+                {
+  "draggable": true,
+  "autoPan": true,
+}
+            ).addTo(feature_group_612d3a55ca1077582c63e2a80f0775a4);
+        
+    
+            var div_icon_ea3d0191f14d2bc2b4122a56a4ed4604 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 10pt;color:red;font-family:arial;font-weight: bold\"\u003eMI PERU\u003c/div\u003e",
+  "iconSize": [1, 1],
+  "iconAnchor": [10, 10],
+  "className": "empty",
+});
+        
+    
+                marker_97348c24003283b20ca0ee580e439b85.setIcon(div_icon_ea3d0191f14d2bc2b4122a56a4ed4604);
+            
+    
+            feature_group_612d3a55ca1077582c63e2a80f0775a4.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            var layer_control_2163d0e06b33e20d711d7ff8c6c64e10_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_f6140d34a4d7d11fba483afe2bba47b6,
+                },
+                overlays :  {
+                    "Esri.WorldImagery" : tile_layer_affc32c0f6b98f0f86688acc47ffdb3f,
+                    "DISTRITOS CALLAO" : tile_layer_3478a0a3fed93baf853ecd317118fdf6,
+                    "Labels" : feature_group_612d3a55ca1077582c63e2a80f0775a4,
+                },
+            };
+            let layer_control_2163d0e06b33e20d711d7ff8c6c64e10 = L.control.layers(
+                layer_control_2163d0e06b33e20d711d7ff8c6c64e10_layers.base_layers,
+                layer_control_2163d0e06b33e20d711d7ff8c6c64e10_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_c8e120945958e72ed036e5351d4572ce);
+
+        
+    
+            tile_layer_f6140d34a4d7d11fba483afe2bba47b6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            tile_layer_affc32c0f6b98f0f86688acc47ffdb3f.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            tile_layer_3478a0a3fed93baf853ecd317118fdf6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+                marker_4eba0903a67f8b4bba70a2d01d77fc5c.setIcon(div_icon_db8c79d52a7509d872e68e424c22e1da);
+            
+    
+                marker_0d0f072f772d4ec087ed956c2fb60af2.setIcon(div_icon_e28305d7041e1046a3bac4801d637733);
+            
+    
+                marker_e5a1e782cd3966162b4c4418f91e9b15.setIcon(div_icon_0158f143878eed1d7ec29bfeebdc7612);
+            
+    
+                marker_dd5dd72d58c8159372bfc73ace30c346.setIcon(div_icon_0208e0a515650fa124a991f4a01339e9);
+            
+    
+                marker_6ce690ff0a7d5f588b070de6ece2cfe3.setIcon(div_icon_799308e55d9923502d5fed8323276963);
+            
+    
+                marker_1bb1b817a9e24565281452bc2c656eba.setIcon(div_icon_a0496beb548802267aece5fddda477ac);
+            
+    
+                marker_97348c24003283b20ca0ee580e439b85.setIcon(div_icon_ea3d0191f14d2bc2b4122a56a4ed4604);
+            
+    
+            feature_group_612d3a55ca1077582c63e2a80f0775a4.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            tile_layer_f6140d34a4d7d11fba483afe2bba47b6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            tile_layer_affc32c0f6b98f0f86688acc47ffdb3f.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+            tile_layer_3478a0a3fed93baf853ecd317118fdf6.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+    
+                marker_4eba0903a67f8b4bba70a2d01d77fc5c.setIcon(div_icon_db8c79d52a7509d872e68e424c22e1da);
+            
+    
+                marker_0d0f072f772d4ec087ed956c2fb60af2.setIcon(div_icon_e28305d7041e1046a3bac4801d637733);
+            
+    
+                marker_e5a1e782cd3966162b4c4418f91e9b15.setIcon(div_icon_0158f143878eed1d7ec29bfeebdc7612);
+            
+    
+                marker_dd5dd72d58c8159372bfc73ace30c346.setIcon(div_icon_0208e0a515650fa124a991f4a01339e9);
+            
+    
+                marker_6ce690ff0a7d5f588b070de6ece2cfe3.setIcon(div_icon_799308e55d9923502d5fed8323276963);
+            
+    
+                marker_1bb1b817a9e24565281452bc2c656eba.setIcon(div_icon_a0496beb548802267aece5fddda477ac);
+            
+    
+                marker_97348c24003283b20ca0ee580e439b85.setIcon(div_icon_ea3d0191f14d2bc2b4122a56a4ed4604);
+            
+    
+            feature_group_612d3a55ca1077582c63e2a80f0775a4.addTo(map_c8e120945958e72ed036e5351d4572ce);
+        
+</script>
+</html>
